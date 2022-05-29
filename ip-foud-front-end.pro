@@ -20,8 +20,7 @@ FORMS += \
     mainwindow.ui
 
 TRANSLATIONS = \
-    english.ts \
-    chinese.ts
+    english.ts
 
 CONFIG += lrelease
 CONFIG += embed_translations

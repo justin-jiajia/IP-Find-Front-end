@@ -17,7 +17,7 @@ void MainWindow::get_one_ip(){
     QMetaObject::Connection connRet = QObject::connect(naManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(get_one_ip_requestFinished(QNetworkReply*)));
     Q_ASSERT(connRet);
 
-    request.setUrl(QUrl(MainWindow::IP_FOUD_L + "get_one_ip/"));
+    request.setUrl(QUrl(MainWindow::IP_FIND_L + "get_one_ip/"));
     naManager->post(request, doc.toJson());
 }
 void MainWindow::get_one_ip_requestFinished(QNetworkReply* reply) {
@@ -28,14 +28,11 @@ void MainWindow::get_one_ip_requestFinished(QNetworkReply* reply) {
         QMessageBox::critical(this,tr("出错了！"),reply->errorString());
     }
     else {
-        // 获取返回内容
         QJsonObject obj = QJsonDocument::fromJson(reply->readAll()).object();
         QString o = obj["ip_from"].toString();
         if (QMessageBox::question(this,tr("IP来源查询完成，复制到剪贴板？"),tr("IP来源：")+o,QMessageBox::Yes|QMessageBox::No,QMessageBox::Yes)
                 ==QMessageBox::Yes){
-                 qDebug() << "y";
-                 QClipboard *board = QApplication::clipboard();
-                 board->setText(o);
+                 qapp->clipboard()->setText(o);
         }
     }
 }
